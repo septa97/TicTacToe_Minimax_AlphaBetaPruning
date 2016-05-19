@@ -20,19 +20,55 @@ public class Main {
 			}
 		}
 
-		Scanner scanner = new Scanner(System.in);
+		// Let the player choose who is the first turn
+		int firstTurn = chooseFirstTurn();
 
-		/*System.out.println("[1] You");
-		System.out.println("[2] AI");
-		System.out.print("First turn? ");
-		int firstTurn = scanner.nextInt();*/
-
-		// State initialState = new State(initialBoard, null, "X", firstTurn == 1 ? 2 : 1);
-		State initialState = new State(initialBoard, null, "X", 2);
+		State initialState = new State(initialBoard, null, "X", firstTurn == 1 ? 2 : 1);
 
 		GAME = new Game(initialState);
 
-		while (!GAME.getCurrentState().terminal()) {
+		if (firstTurn == 2) {
+			State state = GAME.getCurrentState().value();
+			State bestState = null;
+
+			for (State s : state.getChildren()) {
+				if (s.getUtility() == 1) {
+					bestState = s;
+					break;
+				}
+			}
+
+			if (bestState == null) {
+				for (State s : state.getChildren()) {
+					if (s.getUtility() == 0) {
+						bestState = s;
+						break;
+					}
+				}
+			}
+
+			State tempState = GAME.getCurrentState();
+			State newState = GAME.getCurrentState().result(bestState.getMoveToBeExecuted());
+			GAME.changeCurrentState(newState);
+			GAME.getCurrentState().printBoard();
+			BUTTONS[bestState.getMoveToBeExecuted().getX()][bestState.getMoveToBeExecuted().getY()].setValue(state.getMove());
+		}
+	}
+
+	private static int chooseFirstTurn() {
+		String[] choices = {"Human first", "AI first"};
+
+		String choice;
+
+		do {
+			choice = (String) JOptionPane.showInputDialog(null, "Choose first turn", "First turn", JOptionPane.QUESTION_MESSAGE, null, choices, choices[0]);	
+		} while (choice == null);
+
+		if (choice == "Human first") {
+			return 1;
+		}
+		else {
+			return 2;
 		}
 	}
 }

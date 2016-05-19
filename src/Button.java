@@ -3,7 +3,6 @@ import javax.swing.*;
 
 public class Button extends JButton implements ActionListener {
 	// Attributes
-	private static String TURN = "X";
 	private String value;
 	private int x, y;
 
@@ -26,13 +25,8 @@ public class Button extends JButton implements ActionListener {
 
 			Main.GAME.getCurrentState().printBoard();
 
-			if (hasWinner()) {
-				JOptionPane.showMessageDialog(null, "Player " + TURN + " has won!", "YOU WON!", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
-			}
-			else if (isDraw()) {
-				JOptionPane.showMessageDialog(null, "DRAW!", "DRAW!", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
+			if (isTerminal(newState.getMove())) {
+				System.exit(0);				
 			}
 
 			/**** --AI's TURN-- ****/
@@ -56,25 +50,35 @@ public class Button extends JButton implements ActionListener {
 				}
 			}
 
+			State tempState = Main.GAME.getCurrentState();
 			newState = Main.GAME.getCurrentState().result(bestState.getMoveToBeExecuted());
 			Main.GAME.changeCurrentState(newState);
 			Main.GAME.getCurrentState().printBoard();
 			Main.BUTTONS[bestState.getMoveToBeExecuted().getX()][bestState.getMoveToBeExecuted().getY()].setValue(state.getMove());
-			
-		
-			if (hasWinner()) {
-				JOptionPane.showMessageDialog(null, "Player " + TURN + " has won!", "YOU WON!", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
-			}
-			else if (isDraw()) {
-				JOptionPane.showMessageDialog(null, "DRAW!", "DRAW!", JOptionPane.INFORMATION_MESSAGE);
-				System.exit(0);
+
+			if (isTerminal(tempState.getMove())) {
+				System.exit(0);				
 			}
 		}
 	}
 
+	private boolean isTerminal(String move) {
+		if (hasWinner()) {
+			JOptionPane.showMessageDialog(null, "Player " + move + " has won!", "YOU WON!", JOptionPane.INFORMATION_MESSAGE);
 
-	private void setValue(String value) {
+			return true;
+		}
+		else if (isDraw()) {
+			JOptionPane.showMessageDialog(null, "DRAW!", "DRAW!", JOptionPane.INFORMATION_MESSAGE);
+		
+			return true;	
+		}
+
+		return false;
+	}
+
+
+	public void setValue(String value) {
 		this.setText(value);
 		this.value = value;
 	}
