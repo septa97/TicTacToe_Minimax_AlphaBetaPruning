@@ -25,9 +25,7 @@ public class Button extends JButton implements ActionListener {
 
 			Main.GAME.getCurrentState().printBoard();
 
-			if (isTerminal(newState.getMove())) {
-				System.exit(0);				
-			}
+			checkTerminal(newState.getMove());
 
 			/**** --AI's TURN-- ****/
 
@@ -56,25 +54,31 @@ public class Button extends JButton implements ActionListener {
 			Main.GAME.getCurrentState().printBoard();
 			Main.BUTTONS[bestState.getMoveToBeExecuted().getX()][bestState.getMoveToBeExecuted().getY()].setValue(state.getMove());
 
-			if (isTerminal(tempState.getMove())) {
-				System.exit(0);				
-			}
+			checkTerminal(tempState.getMove());
 		}
 	}
 
-	private boolean isTerminal(String move) {
+	private void checkTerminal(String move) {
 		if (hasWinner()) {
 			JOptionPane.showMessageDialog(null, "Player " + move + " has won!", "YOU WON!", JOptionPane.INFORMATION_MESSAGE);
+			int choice = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "PLAY AGAIN?", JOptionPane.YES_NO_OPTION);
+			
+			System.exit(0);
 
-			return true;
+			if (choice == JOptionPane.YES_OPTION) {
+				Main.startGame();
+			}
 		}
 		else if (isDraw()) {
 			JOptionPane.showMessageDialog(null, "DRAW!", "DRAW!", JOptionPane.INFORMATION_MESSAGE);
-		
-			return true;	
-		}
+			int choice = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "PLAY AGAIN?", JOptionPane.YES_NO_OPTION);
+			
+			System.exit(0);
 
-		return false;
+			if (choice == JOptionPane.YES_OPTION) {
+				Main.startGame();
+			}
+		}
 	}
 
 
