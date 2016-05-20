@@ -28,7 +28,7 @@ public class Main {
 		GAME = new Game(initialState);
 
 		if (firstTurn == 2) {
-			State state = GAME.getCurrentState().value();
+			State state = GAME.getCurrentState().value(Integer.MIN_VALUE, Integer.MAX_VALUE);
 			State bestState = null;
 
 			for (State s : state.getChildren()) {

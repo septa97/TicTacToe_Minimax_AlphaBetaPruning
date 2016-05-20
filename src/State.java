@@ -114,7 +114,7 @@ public class State {
 		return false;
 	}
 
-	public State value() {
+	public State value(int alpha, int beta) {
 		if (this.terminal()) {
 			// System.out.println("TERMINAL");
 			this.utility = this.utility();
@@ -124,21 +124,21 @@ public class State {
 		}
 		else if (this.type == 1) {
 			// System.out.println("MAX");
-			this.utility = this.maxValue();
+			this.utility = this.maxValue(alpha, beta);
 			// this.printBoard();
 			// System.out.println("UTILITY: " + this.utility);
 			return this;
 		}
 		else {
 			// System.out.println("MIN");
-			this.utility = this.minValue();
+			this.utility = this.minValue(alpha, beta);
 			// this.printBoard();
 			// System.out.println("UTILITY: " + this.utility);
 			return this;
 		}
 	}
 
-	public int maxValue() {
+	public int maxValue(int alpha, int beta) {
 		int m = Integer.MIN_VALUE;
 
 		ArrayList<State> states = new ArrayList<State>();
@@ -149,15 +149,22 @@ public class State {
 
 		for (State s : states) {
 			this.children.add(s);
-			State v = s.value();
+			State v = s.value(alpha, beta);
 
 			m = s.max(m, v.utility);
+
+			if (m >= beta) {
+				System.out.println("PRUNING (MAX)");
+				return m;
+			}
+
+			alpha = s.max(alpha, m);
 		}
 
 		return m;
 	}
 
-	public int minValue() {
+	public int minValue(int alpha, int beta) {
 		int m = Integer.MAX_VALUE;
 
 		ArrayList<State> states = new ArrayList<State>();
@@ -168,9 +175,16 @@ public class State {
 
 		for (State s : states) {
 			this.children.add(s);
-			State v = s.value();
+			State v = s.value(alpha, beta);
 
 			m = s.min(m, v.utility);
+
+			if (m <= alpha) {
+				System.out.println("PRUNING (MIN)");
+				return m;
+			}
+
+			beta = s.min(beta, m);
 		}
 
 		return m;
