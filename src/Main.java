@@ -4,8 +4,8 @@ import javax.swing.*;
 public class Main {
 	public static int ROW = 3;
 	public static int COL = 3;
-	public static JFrame MAINFRAME = new JFrame("TicTacToe (with AI)");
-	public static Button BUTTONS[][] = new Button[ROW][COL];
+	public static JFrame MAINFRAME;
+	public static Button BUTTONS[][];
 	public static Game GAME;
 
 	public static void main(String[] args) {
@@ -13,6 +13,8 @@ public class Main {
 	}
 
 	public static void startGame() {
+		MAINFRAME = new JFrame("TicTacToe (with AI)");
+		BUTTONS = new Button[ROW][COL];
 		LayoutManager layoutManager = new LayoutManager();
 
 		// Initial board

@@ -63,20 +63,24 @@ public class Button extends JButton implements ActionListener {
 			JOptionPane.showMessageDialog(null, "Player " + move + " has won!", "YOU WON!", JOptionPane.INFORMATION_MESSAGE);
 			int choice = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "PLAY AGAIN?", JOptionPane.YES_NO_OPTION);
 			
-			System.exit(0);
-
 			if (choice == JOptionPane.YES_OPTION) {
+				Main.MAINFRAME.dispose();
 				Main.startGame();
+			}
+			else {
+				System.exit(0);
 			}
 		}
 		else if (isDraw()) {
 			JOptionPane.showMessageDialog(null, "DRAW!", "DRAW!", JOptionPane.INFORMATION_MESSAGE);
 			int choice = JOptionPane.showConfirmDialog(null, "Do you want to play again?", "PLAY AGAIN?", JOptionPane.YES_NO_OPTION);
 			
-			System.exit(0);
-
 			if (choice == JOptionPane.YES_OPTION) {
+				Main.MAINFRAME.dispose();
 				Main.startGame();
+			}
+			else {
+				System.exit(0);
 			}
 		}
 	}
