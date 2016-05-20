@@ -8,7 +8,6 @@ public class LayoutManager {
 		/* Setting the layout */
 		JPanel mainPanel = new JPanel();
 		JPanel boardPanel = new JPanel();
-		JPanel detailsPanel = new JPanel();
 
 		// Instantiate the buttons
 		for (int i = 0; i < Main.ROW; i++) {
@@ -25,13 +24,8 @@ public class LayoutManager {
 
 		// Adding panels
  		mainPanel.setLayout(new BorderLayout());
- 		detailsPanel.setLayout(new FlowLayout());	
 		boardPanel.setLayout(new GridLayout(Main.ROW, Main.COL));
 
-		boardPanel.setPreferredSize(new Dimension(400, 400));
-		detailsPanel.setPreferredSize(new Dimension(400, 100));
-
-		mainPanel.add(detailsPanel, BorderLayout.SOUTH);
 		mainPanel.add(boardPanel, BorderLayout.CENTER);
 		Main.MAINFRAME.add(mainPanel);
 		Main.MAINFRAME.setSize(new Dimension(400, 500));

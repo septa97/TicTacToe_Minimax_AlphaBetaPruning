@@ -116,24 +116,15 @@ public class State {
 
 	public State value(int alpha, int beta) {
 		if (this.terminal()) {
-			// System.out.println("TERMINAL");
 			this.utility = this.utility();
-			// this.printBoard();
-			// System.out.println("UTILITY: " + this.utility);
 			return this;
 		}
 		else if (this.type == 1) {
-			// System.out.println("MAX");
 			this.utility = this.maxValue(alpha, beta);
-			// this.printBoard();
-			// System.out.println("UTILITY: " + this.utility);
 			return this;
 		}
 		else {
-			// System.out.println("MIN");
 			this.utility = this.minValue(alpha, beta);
-			// this.printBoard();
-			// System.out.println("UTILITY: " + this.utility);
 			return this;
 		}
 	}
