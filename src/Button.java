@@ -31,7 +31,7 @@ public class Button extends JButton implements ActionListener {
 
 			/**** --AI's TURN-- ****/
 
-			State state = Main.GAME.getCurrentState().value();
+			State state = Main.GAME.getCurrentState().value(Integer.MIN_VALUE, Integer.MAX_VALUE);
 			State bestState = null;
 
 			for (State s : state.getChildren()) {
